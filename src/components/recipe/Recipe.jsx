@@ -1,28 +1,51 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import profilePic from '../../assets/images/horizontal-portrait-smiling-happy-young-pleasant-looking-female-wears-denim-shirt-stylish-glasses-with-straight-blonde-hair-expresses-positiveness-poses-min.jpg';
-import dummyImage from '../../assets/images/bowl-vegetables-with-blue-background-with-picture-salad-with-cucumber-tomatoes-cucumbe.jpg';
 import backgroundImage from '../../assets/images/recipe-header.svg';
 import LikeIcon from '../../assets/images/like.svg';
 import WhislistIcon from '../../assets/images/like-svgrepo-com.svg';
-import dummyImageOne from '../../assets/images/images (1).jpeg';
-import dummyImageTwo from '../../assets/images/images.jpeg';
+import { useParams } from 'react-router';
+import { fetchSingleRecipe } from '../../hooks/fetch';
 
 export default function Recipie() {
+  const [recipeData, setRecipeData] = useState(null);
   const [checkedItems, setCheckedItems] = useState({});
   const [checkedSteps, setCheckedSteps] = useState({});
-  const images = [dummyImageOne, dummyImageTwo];
+  const [ingredients, setIngredients] = useState([]);
+  const [instrctions, setInstrctions] = useState([]);
 
-  const ingredients = [
-    '454 g. salmon (see note 1)',
-    '1 tablespoon brown sugar',
-    '1 teaspoon paprika',
-    '1 teaspoon smoked paprika',
-    '454 g. salmon (see note 1)',
-    '1 tablespoon brown sugar',
-    '1 teaspoon paprika',
-    '1 teaspoon smoked paprika',
-  ];
+  const { id } = useParams();
+
+  useEffect(() => {
+    const getData = async () => {
+      const data = await fetchSingleRecipe(id);
+      setRecipeData(data);
+
+      // Set ingredients after fetching recipeData
+      if (data) {
+        const ingredientsList = [];
+        for (let i = 1; i <= 20; i++) {
+          const ingredient = data[`strIngredient${i}`];
+          const measure = data[`strMeasure${i}`];
+          if (ingredient && ingredient.trim()) {
+            ingredientsList.push(`${measure} ${ingredient}`);
+          }
+        }
+        setIngredients(ingredientsList);
+      }
+      if (data) {
+        const instrctions = data.strInstructions
+          .split('.')
+          .map((sentence) => sentence.trim())
+          .filter((sentence) => sentence !== '');
+        setInstrctions(instrctions);
+      }
+    };
+    getData();
+  }, [id]);
+
+  if (!recipeData) {
+    return <div>Loading...</div>;
+  }
 
   const handleCheckboxChange = (index) => {
     setCheckedItems((prev) => ({
@@ -67,19 +90,18 @@ export default function Recipie() {
         variants={itemVariants}
       >
         <h2 className="w-2/4 text-4xl pl-4 font-bold text-white">
-          Shewnan Chicken Fried Rice
+          {recipeData.strMeal}
         </h2>
         <div className="w-1/4 flex flex-col items-center">
           <img
             className="w-28 h-28 rounded-full"
-            src={dummyImage}
+            src={recipeData.strMealThumb}
             alt="dummy"
           />
         </div>
         <div className="w-1/4 text-white font-bold flex flex-col text-2xl items-end pr-4">
           <p>Time</p>
-          <p>02 hrs</p>
-          <p>20 min</p>
+          <p>{recipeData.strCookTime || '02 hrs'}</p>
         </div>
       </motion.div>
       <motion.div
@@ -88,7 +110,7 @@ export default function Recipie() {
       >
         <div className="flex flex-col items-center space-y-3">
           <h2 className="w-3/4 text-3xl pl-4 text-center font-bold text-black">
-            Shewnan Chicken Fried Rice
+            {recipeData.strMeal}
           </h2>
           <div className="flex flex-row space-x-4 font-bold text-xl">
             <p>11.2k</p>
@@ -96,24 +118,15 @@ export default function Recipie() {
             <p>13.1k</p>
             <img className="w-6 h-6" src={WhislistIcon} alt="wishlist icon" />
           </div>
-          <div className="w-20 h-20">
-            <img
-              src={profilePic}
-              alt="Profile"
-              className="rounded-full w-full h-full object-cover"
-            />
-          </div>
-          <h2 className="mt-4 font-semibold">Bogdan Nikitin</h2>
+
+          <h2 className="mt-4 font-semibold">{recipeData.strTags}</h2>
         </div>
-        <div className="grid grid-cols-2 gap-4 pt-6">
-          {images.map((img, index) => (
-            <img
-              key={index}
-              src={img}
-              alt="Post content"
-              className="rounded-lg w-full h-[200px] object-cover"
-            />
-          ))}
+        <div className="grid grid-col gap-4 pt-6">
+          <img
+            src={recipeData.strMealThumb}
+            alt="Post content"
+            className="rounded-lg w-full h-[300px] object-cover"
+          />
         </div>
         <motion.div className="mt-10" variants={containerVariants}>
           <div>
@@ -142,11 +155,12 @@ export default function Recipie() {
             <h2 className="font-bold text-2xl text-slate-600">
               # Instructions
             </h2>
+
             <ul className="list-disc pl-5 pt-5">
-              {ingredients.map((item, index) => (
+              {instrctions.map((item, index) => (
                 <motion.li
                   key={index}
-                  className={`flex flex-col items-start  space-x-2 ${
+                  className={`flex flex-col items-start space-x-2 ${
                     checkedSteps[index] ? 'line-through text-gray-500' : ''
                   }`}
                   variants={itemVariants}
