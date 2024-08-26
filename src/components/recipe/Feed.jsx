@@ -33,7 +33,7 @@ const Feed = ({ mealTime }) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Post id={meal.idMeal} backround={backgroundColor} />
+                <Post id={meal.idMeal} background={backgroundColor} />
               </motion.div>
             );
           })}

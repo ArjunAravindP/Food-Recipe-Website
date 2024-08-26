@@ -56,13 +56,13 @@ const HomePage = () => {
     visible: {
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.5, delay: 0.5 },
+      transition: { duration: 0.2, delay: 0.2 },
     },
   };
 
   const imageVariants = {
     hidden: { opacity: 0, scale: 0.8 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 1, delay: 1 } },
+    visible: { opacity: 1, scale: 1, transition: { duration: 1, delay: 0.2 } },
   };
 
   return (
@@ -105,30 +105,32 @@ const HomePage = () => {
             </motion.div>
 
             <div className="z-10 flex flex-row justify-between space-x-3 items-center mt-12 pt-10">
-              {randoMeals.map((meal, index) => (
-                <motion.div
-                  key={index}
-                  className="flex flex-col items-center space-y-2 w-50"
-                  variants={imageVariants}
-                >
-                  <div
-                    className={`bg-red-300 p-4 rounded-full w-60 flex flex-row justify-between items-center`}
+              {!randoMeals && <p>Loading random recipie suggestions</p>}
+              {randoMeals &&
+                randoMeals.map((meal, index) => (
+                  <motion.div
+                    key={index}
+                    className="flex flex-col items-center space-y-2 w-50"
+                    variants={imageVariants}
                   >
-                    <img
-                      src={meal.strMealThumb}
-                      alt={`Meal ${index}`}
-                      className="rounded-full h-16 w-16"
-                    />
-                    <span>{`${meal.strMeal.slice(0, 15)}...`}</span>
-                    <button
-                      onClick={() => handleClick(meal.idMeal)}
-                      className="text-white bg-black px-2 py-1 rounded-xl"
+                    <div
+                      className={`bg-red-300 p-4 rounded-full w-60 flex flex-row justify-between items-center`}
                     >
-                      View
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
+                      <img
+                        src={meal.strMealThumb}
+                        alt={`Meal ${index}`}
+                        className="rounded-full h-16 w-16"
+                      />
+                      <span>{`${meal.strMeal.slice(0, 15)}...`}</span>
+                      <button
+                        onClick={() => handleClick(meal.idMeal)}
+                        className="text-white bg-black px-2 py-1 rounded-xl"
+                      >
+                        View
+                      </button>
+                    </div>
+                  </motion.div>
+                ))}
             </div>
           </motion.div>
 

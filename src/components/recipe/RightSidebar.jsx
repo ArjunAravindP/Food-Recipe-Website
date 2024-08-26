@@ -45,6 +45,7 @@ const RightSidebar = () => {
   return (
     <div className="w-full p-5">
       <div className="mb-6 w-full">
+        <h3 className="font-bold text-xl pb-2">Search for recipes</h3>
         <input
           type="search"
           value={searchTerm}
@@ -79,7 +80,7 @@ const RightSidebar = () => {
             ))}
           </ul>
         ) : (
-          !loading && <p>No recipes found.</p>
+          !loading && <p>Not found</p>
         )}
       </div>
     </div>
