@@ -1,20 +1,21 @@
 import Post from './Post';
-
+import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
-import { fetchBreakfastRecipes } from '../../hooks/fetch';
+import { fetchMeal } from '../../hooks/fetch';
 import { useEffect, useState } from 'react';
 
 const colors = ['bg-blue', 'bg-white', 'bg-pink', 'bg-white'];
 
-const Feed = () => {
+// eslint-disable-next-line react/prop-types
+const Feed = ({ mealTime }) => {
   const [recipes, setRecipies] = useState([]);
   useEffect(() => {
     const getData = async () => {
-      const data = await fetchBreakfastRecipes();
+      const data = await fetchMeal(mealTime);
       setRecipies(data);
     };
     getData();
-  }, []);
+  }, [mealTime]);
   return (
     <div className="fixed top-20 w-2/4">
       <h2 className="fixed text-2xl font-semibold">Feeds</h2>
@@ -40,6 +41,9 @@ const Feed = () => {
       </div>
     </div>
   );
+};
+Post.propTypes = {
+  mealTime: PropTypes.any,
 };
 
 export default Feed;

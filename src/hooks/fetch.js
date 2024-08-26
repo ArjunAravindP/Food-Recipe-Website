@@ -13,14 +13,28 @@ export async function fetchSingleRecipe(id) {
   }
 }
 
-export async function fetchBreakfastRecipes() {
+export async function fetchMeal(meal) {
+  console.log(meal);
   try {
     const response = await axios.get(
-      'https://www.themealdb.com/api/json/v1/1/filter.php?c=Breakfast'
+      `https://www.themealdb.com/api/json/v1/1/filter.php?c=${meal}`
     );
     const breakfastRecipes = response.data.meals;
     return breakfastRecipes;
   } catch (error) {
     console.error('Error fetching breakfast recipes:', error);
+  }
+}
+export async function fetchCategories() {
+  try {
+    const response = await axios.get(
+      'https://www.themealdb.com/api/json/v1/1/categories.php'
+    );
+    const categories = response.data.categories;
+
+    return categories;
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    return [];
   }
 }

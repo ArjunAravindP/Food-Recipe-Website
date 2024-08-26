@@ -4,7 +4,7 @@ import TabContext from './tab-context';
 
 // Create a provider component
 export const TabProvider = ({ children }) => {
-  const [activeTab, setActiveTab] = useState('new-recipes');
+  const [activeTab, setActiveTab] = useState('Beef');
 
   return (
     <TabContext.Provider value={{ activeTab, setActiveTab }}>
