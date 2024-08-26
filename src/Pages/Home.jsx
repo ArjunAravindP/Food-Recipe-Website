@@ -1,12 +1,13 @@
-import marbleImage from '../../assets/images/black-marbled-surface.jpg';
-import foodInBowl from '../../assets/images/food-in-bowl.png';
+import { Link } from 'react-router-dom';
+import marbleImage from '../assets/images/black-marbled-surface.jpg';
+import foodInBowl from '../assets/images/food-in-bowl.png';
 import { motion } from 'framer-motion';
 
 const HomePage = () => {
   return (
     <div className=" bg-gray-50">
-      <section className="flex flex-col md:flex-row  justify-between space-y-6 md:space-y-0">
-        <div className="space-y-5 md:w-1/2 flex flex-col  pt-[150px] pl-[150px] h-scree text-left">
+      <section className="flex flex-col md:flex-row justify-between space-y-6 md:space-y-0">
+        <div className="space-y-5 md:w-1/2 flex flex-col  pt-[200px] pl-[150px] h-scree text-left">
           <h1 className="text-6xl font-bold leading-tight text-black">
             Create your <br />
             <span className="text-orange-500 font-thin">favourite Foods</span>
@@ -17,12 +18,15 @@ const HomePage = () => {
           </p>
 
           <div className="flex space-x-4">
-            <button className="flex items-center px-6 py-3 text-white bg-black rounded-full">
+            <Link
+              to="recipes"
+              className="flex items-center px-6 py-3 text-white bg-black rounded-full"
+            >
               <span className="material-icons pr-2">Explore</span>
               Recipes
-            </button>
+            </Link>
           </div>
-          <div className="flex flex-row justify-between space-x-3 items-center mt-12 pt-10">
+          <div className="z-10 flex flex-row justify-between space-x-3 items-center mt-12 pt-10">
             <div className="flex flex-col items-center space-y-2 w-50">
               <div className="bg-green-100 p-4 rounded-full w-60 flex flex-row justify-between items-center">
                 <img
@@ -69,12 +73,12 @@ const HomePage = () => {
             <img
               src={marbleImage}
               alt="marble backround"
-              className="h-[900px] w-[900px] md:h-[800px] md:w-[800px] rounded-full translate-x-[450px] -translate-y-[60px] min-w-[900px]"
+              className="h-[900px] w-[900px] md:h-[800px] md:w-[800px] rounded-full translate-x-[450px] -translate-y-[20px] min-w-[900px]"
             />
             <motion.img
               src={foodInBowl}
               alt="Food in Bowl"
-              className="absolute  top-10 left-40 w-2/3 h-auto"
+              className="absolute  top-20 left-40 w-2/3 h-auto"
               animate={{ rotate: 360 }}
               transition={{
                 repeat: Infinity,

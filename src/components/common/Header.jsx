@@ -1,23 +1,26 @@
+import { Link } from 'react-router-dom';
 const Header = () => {
   return (
-    <header className=" flex justify-center space-x-60 items-center p-6 bg-gray-50">
+    <header className="flex ml-28 fixed z-10 justify-center space-x-60 items-center p-6 bg-transparent">
       <div className=" text-3xl font-bold text-orange-500">
-        M<span className="text-black">o</span>K
-        <span className="text-black">o</span>
+        <Link href="/">
+          M<span className="text-black">o</span>K
+          <span className="text-black">o</span>
+        </Link>
       </div>
       <nav className="space-x-8">
-        <a href="#" className="text-lg text-gray-700 hover:text-black">
+        <Link href="#" className="text-lg text-gray-700 hover:text-black">
           Home
-        </a>
-        <a href="#" className="text-lg text-gray-700 hover:text-black">
+        </Link>
+        <Link href="#" className="text-lg text-gray-700 hover:text-black">
           Menu
-        </a>
-        <a href="#" className="text-lg text-gray-700 hover:text-black">
+        </Link>
+        <Link href="#" className="text-lg text-gray-700 hover:text-black">
           Service
-        </a>
-        <a href="#" className="text-lg text-gray-700 hover:text-black">
+        </Link>
+        <Link href="#" className="text-lg text-gray-700 hover:text-black">
           Shop
-        </a>
+        </Link>
       </nav>
       <div className="flex items-center space-x-4">
         <button className="relative">

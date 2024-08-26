@@ -1,13 +1,32 @@
-import Header from './components/common/Header';
-import HomePage from './components/Pages/Home';
+import HomePage from './Pages/Home';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import RootLayout from './Pages/Root';
+import Login from './Pages/Login';
+import Recipes from './Pages/Recipies';
 
-function App() {
-  return (
-    <>
-      <Header />
-      <HomePage />
-    </>
-  );
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <RootLayout />,
+    errorElement: null,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: '/recipes',
+        element: <Recipes />,
+      },
+      {
+        path: '/login',
+        element: <Login />,
+      },
+    ],
+  },
+  { path: '*', element: <HomePage /> },
+]);
+
+export default function App() {
+  return <RouterProvider router={router} />;
 }
-
-export default App;
