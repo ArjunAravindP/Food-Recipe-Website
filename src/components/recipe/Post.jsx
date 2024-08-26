@@ -1,10 +1,22 @@
 import PropTypes from 'prop-types';
 import ReactionButtons from './Reactions';
 import profileImage from '../../assets/images/horizontal-portrait-smiling-happy-young-pleasant-looking-female-wears-denim-shirt-stylish-glasses-with-straight-blonde-hair-expresses-positiveness-poses-min.jpg';
+import { motion } from 'framer-motion';
 
-const Post = ({ username, time, content, images = [], backround }) => {
+import { useNavigate } from 'react-router';
+
+const Post = ({ username, id, time, content, images = [], backround }) => {
+  const navigate = useNavigate();
+
+  const handleClcik = (id) => {
+    navigate(`${id}`);
+  };
   return (
-    <div className={`rounded-lg shadow p-5 mb-6 ${backround}`}>
+    <motion.div
+      whileHover={{ scale: 0.99 }}
+      className={`rounded-lg shadow p-5 mb-6 cursor-pointer ${backround}`}
+      onClick={() => handleClcik(id)}
+    >
       <div className="flex items-center mb-4">
         <div className="w-10 h-10 rounded-full bg-gray-300 mr-3">
           <img
@@ -30,7 +42,7 @@ const Post = ({ username, time, content, images = [], backround }) => {
         ))}
       </div>
       <ReactionButtons />
-    </div>
+    </motion.div>
   );
 };
 
@@ -40,6 +52,7 @@ Post.propTypes = {
   content: PropTypes.string.isRequired,
   images: PropTypes.arrayOf(PropTypes.any),
   backround: PropTypes.any,
+  id: PropTypes.any,
 };
 
 export default Post;
