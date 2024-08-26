@@ -3,10 +3,11 @@ import { useState, useEffect } from 'react';
 import marbleImage from '../assets/images/black-marbled-surface.jpg';
 import foodInBowl from '../assets/images/food-in-bowl.png';
 import { motion } from 'framer-motion';
-import dummyImage from '../assets/images/bowl-vegetables-with-blue-background-with-picture-salad-with-cucumber-tomatoes-cucumbe.jpg';
+import { getRandomMeal } from '../hooks/fetch';
 
 const HomePage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [randoMeals, setRandoMeals] = useState([]);
 
   useEffect(() => {
     const img1 = new Image();
@@ -23,6 +24,20 @@ const HomePage = () => {
 
     img1.onload = handleLoad;
     img2.onload = handleLoad;
+  }, []);
+
+  useEffect(() => {
+    async function fetchMeals() {
+      const meals = [];
+      for (let i = 0; i < 3; i++) {
+        const randomMeal = await getRandomMeal();
+        if (randomMeal) {
+          meals.push(randomMeal);
+        }
+      }
+      setRandoMeals(meals);
+    }
+    fetchMeals();
   }, []);
 
   // Animation variants
@@ -85,9 +100,9 @@ const HomePage = () => {
             </motion.div>
 
             <div className="z-10 flex flex-row justify-between space-x-3 items-center mt-12 pt-10">
-              {[1, 2, 3].map((item) => (
+              {randoMeals.map((meal, index) => (
                 <motion.div
-                  key={item}
+                  key={index}
                   className="flex flex-col items-center space-y-2 w-50"
                   variants={imageVariants}
                 >
@@ -95,11 +110,11 @@ const HomePage = () => {
                     className={`bg-red-300 p-4 rounded-full w-60 flex flex-row justify-between items-center`}
                   >
                     <img
-                      src={dummyImage}
-                      alt={`Item ${item}`}
+                      src={meal.strMealThumb}
+                      alt={`Meal ${index}`}
                       className="rounded-full h-16 w-16"
                     />
-                    <span>Burger</span>
+                    <span>{meal.strMeal}</span>
                     <button className="text-white bg-black px-2 py-1 rounded-xl">
                       View
                     </button>

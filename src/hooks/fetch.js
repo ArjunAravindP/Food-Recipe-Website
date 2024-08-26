@@ -38,3 +38,14 @@ export async function fetchCategories() {
     return [];
   }
 }
+export async function getRandomMeal() {
+  try {
+    const response = await axios.get(
+      'https://www.themealdb.com/api/json/v1/1/random.php'
+    );
+    return response.data.meals[0];
+  } catch (error) {
+    console.error('Error fetching random meal:', error);
+    return null;
+  }
+}
