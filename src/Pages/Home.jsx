@@ -4,10 +4,12 @@ import marbleImage from '../assets/images/black-marbled-surface.jpg';
 import foodInBowl from '../assets/images/food-in-bowl.png';
 import { motion } from 'framer-motion';
 import { getRandomMeal } from '../hooks/fetch';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [randoMeals, setRandoMeals] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const img1 = new Image();
@@ -39,6 +41,9 @@ const HomePage = () => {
     }
     fetchMeals();
   }, []);
+  const handleClick = (id) => {
+    navigate(`/recipes/${id}`);
+  };
 
   // Animation variants
   const textVariants = {
@@ -114,8 +119,11 @@ const HomePage = () => {
                       alt={`Meal ${index}`}
                       className="rounded-full h-16 w-16"
                     />
-                    <span>{meal.strMeal}</span>
-                    <button className="text-white bg-black px-2 py-1 rounded-xl">
+                    <span>{`${meal.strMeal.slice(0, 15)}...`}</span>
+                    <button
+                      onClick={() => handleClick(meal.idMeal)}
+                      className="text-white bg-black px-2 py-1 rounded-xl"
+                    >
                       View
                     </button>
                   </div>
