@@ -50,14 +50,8 @@ const RightSidebar = () => {
           value={searchTerm}
           placeholder="Search for your recipe"
           onChange={handleChange}
-          className="w-3/4 p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-gray-300 rounded"
         />
-        <button
-          onClick={() => debouncedSearch(searchTerm)} // Manual search trigger
-          className="mt-2 p-2 bg-black text-white rounded"
-        >
-          Search
-        </button>
       </div>
       <div className="h-screen overflow-y-auto">
         {loading && <p className="text-gray-500">Loading...</p>}

@@ -12,6 +12,16 @@ export default function Recipie() {
   const [checkedSteps, setCheckedSteps] = useState({});
   const [ingredients, setIngredients] = useState([]);
   const [instrctions, setInstrctions] = useState([]);
+  const [youtubeUrl, setYoutubeUrl] = useState('');
+
+  const getEmbedUrl = (url) => {
+    const videoIdMatch = url.match(
+      /(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:watch\?v=|embed\/|v\/|.+\?v=|.+\/v\/|.+\/embed\/|.+\/watch\?v=)([^"&?\s]{11})/
+    );
+    return videoIdMatch
+      ? `https://www.youtube.com/embed/${videoIdMatch[1]}`
+      : '';
+  };
 
   const { id } = useParams();
 
@@ -38,6 +48,8 @@ export default function Recipie() {
           .map((sentence) => sentence.trim())
           .filter((sentence) => sentence !== '');
         setInstrctions(instrctions);
+        const embedUrl = getEmbedUrl(data.strYoutube);
+        setYoutubeUrl(embedUrl);
       }
     };
     getData();
@@ -121,13 +133,22 @@ export default function Recipie() {
 
           <h2 className="mt-4 font-semibold">{recipeData.strTags}</h2>
         </div>
-        <div className="grid grid-col gap-4 pt-6">
+        <div className="grid grid-cols-1 gap-4 pt-6">
           <img
             src={recipeData.strMealThumb}
             alt="Post content"
             className="rounded-lg w-full h-[300px] object-cover"
           />
+          {recipeData.strYoutube && (
+            <iframe
+              src={youtubeUrl}
+              allowFullScreen
+              title="YouTube video player"
+              className="w-full h-[315px]" // Adjust height as needed for video aspect ratio
+            ></iframe>
+          )}
         </div>
+
         <motion.div className="mt-10" variants={containerVariants}>
           <div>
             <h2 className="font-bold text-2xl text-slate-600"># Ingredients</h2>

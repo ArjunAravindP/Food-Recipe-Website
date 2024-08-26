@@ -12,3 +12,15 @@ export async function fetchSingleRecipe(id) {
     return null; // Return null in case of an error
   }
 }
+
+export async function fetchBreakfastRecipes() {
+  try {
+    const response = await axios.get(
+      'https://www.themealdb.com/api/json/v1/1/filter.php?c=Breakfast'
+    );
+    const breakfastRecipes = response.data.meals;
+    return breakfastRecipes;
+  } catch (error) {
+    console.error('Error fetching breakfast recipes:', error);
+  }
+}
